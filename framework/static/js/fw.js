@@ -1092,6 +1092,38 @@ fw.getValuesFromServer = function (data) {
 	});
 };
 
+/**
+ * Basic mechanism that allows option types to notify the rest of the world
+ * about the fact that they was changed by the user.
+ *
+ * Each option type is responsible for triggering such events and they should
+ * at least try to supply a reasonable current value for it. Additional meta
+ * data about the particular option type is infered automatically and can be
+ * overrided by the option which triggers the event.
+ *
+ * In theory (and also in practice), options can and should trigger events
+ * which are different than the `change`, because complicated option types
+ * has many lifecycle events which everyone should be aware about and be able
+ * to hook into. A lot of options already trigger such events but they do that
+ * in an inconsistent manner which leads to poorly named and poorly namespaced
+ * events.
+ *
+ * In order for events to be properly namespaced one should use
+ * triggerScopedByType which automatically infers all the needed data.
+ *
+ * Example:
+ *
+ * data:
+ *  optionId
+ *  optionType
+ *  value
+ *  context
+ *  el
+ *
+ * fw.options.onChange(function (data) {
+ * });
+ *
+ */
 fw.options = (function ($) {
 	var service = {
 		on: on,
@@ -1099,8 +1131,9 @@ fw.options = (function ($) {
 		one: one,
 		off: off,
 		trigger: trigger,
+		triggerScopedByType: triggerScopedByType,
 		triggerChange: triggerChange,
-		triggerChangeForEl: triggerChangeForEl
+		triggerChangeForEl: triggerChangeForEl,
 	};
 
 	service.trigger.change = triggerChange;
@@ -1140,9 +1173,19 @@ fw.options = (function ($) {
 	}
 
 	function triggerChangeForEl (el, data) {
-		triggerChange($.extend(
+		triggerChange(getActualData(el, data));
+	}
+
+	function triggerScopedByType (eventName, data, el) {
+		data = getActualData(el, data);
+
+		trigger(data.optionType + ':' + eventName, data);
+	}
+
+	function getActualData (el, data) {
+		return $.extend(
 			{}, inferDataFromEl(el), data
-		));
+		);
 	}
 
 	function inferDataFromEl(el) {
