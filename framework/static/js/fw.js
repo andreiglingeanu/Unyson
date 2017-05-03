@@ -1092,6 +1092,86 @@ fw.getValuesFromServer = function (data) {
 	});
 };
 
+fw.options = (function ($) {
+	var service = {
+		on: on,
+		onChange: onChange,
+		one: one,
+		off: off,
+		trigger: trigger,
+		triggerChange: triggerChange,
+		triggerChangeForEl: triggerChangeForEl
+	};
+
+	service.trigger.change = triggerChange;
+
+	return service;
+
+	function onChange (listener) {
+		on('change', listener);
+	}
+
+	function on(eventName, listener) {
+		fwEvents.on('fw:options:' + eventName, listener);
+	}
+
+	function one(eventName, listener) {
+		fwEvents.one('fw:options:' + eventName, listener);
+	}
+
+	function off (eventName, listener) {
+		fwEvents.off('fw:options:' + eventName, listener);
+	}
+
+	/**
+	 * data:
+	 *  optionId
+	 *  optionType
+	 *  value
+	 *  context
+	 *  el
+	 */
+	function trigger(eventName, data) {
+		fwEvents.trigger('fw:options:' + eventName, data);
+	}
+
+	function triggerChange (data) {
+		trigger('change', data);
+	}
+
+	function triggerChangeForEl (el, data) {
+		triggerChange($.extend(
+			{}, inferDataFromEl(el), data
+		));
+	}
+
+	function inferDataFromEl(el) {
+		var data = {};
+
+		var maybeVirtualContext = $(el).closest('.fw-backend-options-context');
+
+		var hasVirtualContext = maybeVirtualContext.length > 0;
+
+		data.context = hasVirtualContext ? maybeVirtualContext[0] : $(el).closest(
+			'form'
+		);
+
+		data.el = $(el).hasClass('.fw-backend-option') ? $(el)[0] : $(el).closest(
+			'.fw-backend-option'
+		);
+
+		data.optionId = $(data.el).attr(;
+			'data-fw-option-id'
+		);
+
+		data.optionType = $(data.el).attr(
+			'data-fw-option-type'
+		);
+
+		return data;
+	}
+})(jQuery);
+
 (function(){
 	var fwLoadingId = 'fw-options-modal',
 		htmlCache = {};
