@@ -1197,11 +1197,11 @@ fw.options = (function ($) {
 
 		data.context = hasVirtualContext ? maybeVirtualContext[0] : $(el).closest(
 			'form'
-		);
+		)[0];
 
 		data.el = $(el).hasClass('.fw-backend-option') ? $(el)[0] : $(el).closest(
 			'.fw-backend-option'
-		);
+		)[0];
 
 		data.optionId = $(data.el).attr(;
 			'data-fw-option-id'
