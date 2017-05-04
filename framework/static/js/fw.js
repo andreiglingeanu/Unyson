@@ -1203,7 +1203,7 @@ fw.options = (function ($) {
 			'.fw-backend-option'
 		)[0];
 
-		data.optionId = $(data.el).attr(;
+		data.optionId = $(data.el).attr(
 			'data-fw-option-id'
 		);
 
