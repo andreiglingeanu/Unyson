@@ -5,31 +5,56 @@ jQuery(document).ready(function ($) {
 	fwEvents.on('fw:options:init', function (data) {
 		var $options = data.$elements.find('.'+ optionTypeClass +':not(.initialized)');
 
-		$options.find('.fw-option-type-radio').on('change', function (e) {
-			var $predefined = jQuery(this).closest('.fw-inner').find('.predefined');
-			var $custom = jQuery(this).closest('.fw-inner').find('.custom');
+		$options.toArray().map(function (el) {
+			fw.options.onChangeByContext(el, function (data) {
+				if (data.type === 'radio') {
+					var $predefined = jQuery(data.el).closest('.fw-inner').find('.predefined');
+					var $custom = jQuery(data.el).closest('.fw-inner').find('.custom');
 
-			if (e.target.value === 'custom') {
-				$predefined.hide();
-				$custom.show();
-			} else {
-				$predefined.show();
-				$custom.hide();
-			}
+					if (data.value === 'custom') {
+						$predefined.hide();
+						$custom.show();
+					} else {
+						$predefined.show();
+						$custom.hide();
+					}
+				}
+
+				triggerChangeAndInferValueFor(
+					data.context
+				);
+			});
 		});
 
 		// route inner image-picker events as this option events
 		{
-			$options.on('fw:option-type:image-picker:clicked', '.fw-option-type-image-picker', function(e, data) {
-				jQuery(this).trigger(eventNamePrefix +'clicked', data);
-			});
+			$options.on(
+				'fw:option-type:image-picker:clicked',
+				'.fw-option-type-image-picker',
+				function(e, data) {
+					jQuery(this).trigger(eventNamePrefix + 'clicked', data);
+				}
+			);
 
-			$options.on('fw:option-type:image-picker:changed', '.fw-option-type-image-picker', function(e, data) {
-				jQuery(this).trigger(eventNamePrefix +'changed', data);
-            });
-        }
+			$options.on(
+				'fw:option-type:image-picker:changed',
+				'.fw-option-type-image-picker',
+				function(e, data) {
+					jQuery(this).trigger(eventNamePrefix + 'changed', data);
+				}
+			);
+		}
 
 		$options.addClass('initialized');
 	});
 
+	function triggerChangeAndInferValueFor (el) {
+		var value = {
+			type: $(el).find(
+				'[data-fw-option-id="type"] [type="radio"]:checked'
+			).val()
+		}
+
+		fw.options.triggerChangeForEl(el, {value: value});
+	}
 });

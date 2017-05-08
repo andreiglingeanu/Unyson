@@ -180,6 +180,7 @@
 			elements.$urlInput
 				.val(attachment.get('url'))
 				.trigger('change'); // trigger Customizer update
+
 			elements.$container.removeClass('empty');
 
 			fwe.trigger('fw:option-type:upload:change', {
