@@ -34,6 +34,7 @@ fw.options = (function ($) {
 	var service = {
 		on: on,
 		onChange: onChange,
+		onChangeByContext: onChangeByContext,
 		one: one,
 		off: off,
 		trigger: trigger,
@@ -49,6 +50,18 @@ fw.options = (function ($) {
 
 	function onChange (listener) {
 		on('change', listener);
+	}
+
+	/**
+	 * Please note that you won't be able to off that listener easily because
+	 * it rewrites the listener which gets passed to fwEvents.
+	 */
+	function onChangeByContext (context, listener) {
+		onChange(function (data) {
+			if (data.context === findOptionDescriptorEl(context)) {
+				listener(data);
+			}
+		});
 	}
 
 	function on(eventName, listener) {
