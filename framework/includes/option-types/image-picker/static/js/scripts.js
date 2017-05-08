@@ -27,6 +27,10 @@
 					changed: function (oldValues, newValues) {
 						var $this = $(this);
 
+						fw.options.triggerChangeForEl($this[0], {
+							value: newValues[0]
+						});
+
 						$this.closest('.'+ optionTypeClass).trigger(eventNamePrefix +'changed', {
 							oldValues : oldValues,
 							newValues : newValues

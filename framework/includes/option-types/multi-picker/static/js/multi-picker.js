@@ -33,7 +33,9 @@
 					$this.removeClass('has-choice');
 				}
 			},
+
 			pickerType = elements.$pickerGroup.attr('class').match(/picker-type-(\S+)/)[1],
+
 			flows = {
 				'switch': function() {
 					elements.$pickerGroup.find(':checkbox').on('change', function() {
@@ -72,7 +74,7 @@
 				}
 			};
 
-		if (!pickerType) {
+		if (! pickerType) {
 			console.error('unknown multi-picker type:', pickerType);
 		} else {
 			if (flows[pickerType]) {

@@ -101,7 +101,7 @@
 	unset($key, $_classes);
 }
 ?>
-<div data-fw-option-type="<?php echo esc_attr($option['type']); ?>" data-fw-option-id="<?php echo esc_attr($id); ?>" class="<?php echo esc_attr($classes['option']) ?>" id="fw-backend-option-<?php echo esc_attr($data['id_prefix'] . $id) ?>">
+<div class="<?php echo esc_attr($classes['option']) ?>" id="fw-backend-option-<?php echo esc_attr($data['id_prefix'] . $id) ?>">
 	<?php if ($option['label'] !== false): ?>
 		<div class="<?php echo esc_attr($classes['label']) ?>">
 			<div class="fw-inner fw-clearfix">

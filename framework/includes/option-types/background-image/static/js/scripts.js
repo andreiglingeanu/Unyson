@@ -26,8 +26,8 @@ jQuery(document).ready(function ($) {
 
 			$options.on('fw:option-type:image-picker:changed', '.fw-option-type-image-picker', function(e, data) {
 				jQuery(this).trigger(eventNamePrefix +'changed', data);
-			});
-		}
+            });
+        }
 
 		$options.addClass('initialized');
 	});
