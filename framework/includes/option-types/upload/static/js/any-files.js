@@ -73,9 +73,11 @@
 
 				frame.on('select', function() {
 					var attachment = frame.state().get('selection').first();
+
 					elements.$input
 						.val(attachment.id)
 						.trigger('change'); // trigger Customizer update
+
 					performSelection(attachment);
 				});
 			};
@@ -122,6 +124,14 @@
 			elements.$uploadButton.text(l10n.buttonAdd);
 			elements.$container.addClass('empty');
 
+			fw.options.triggerChangeForEl(elements.$textField, {
+				value: {}
+			});
+
+			fw.options.triggerForEl('clear', elements.$container, {
+				value: {}
+			});
+
 			fwe.trigger('fw:option-type:upload:clear', {$element: elements.$container});
 			elements.$container.trigger('fw:option-type:upload:clear');
 		}
@@ -135,6 +145,14 @@
 			fwe.trigger('fw:option-type:upload:change', {
 				$element: elements.$container,
 				attachment: attachment
+			});
+
+			fw.options.triggerChangeForEl(elements.$container, {
+				attachment: attachment,
+				value: {
+					attachment_id: attachment.get('id'),
+					url: attachment.get('url')
+				}
 			});
 
 			elements.$container.trigger('fw:option-type:upload:change', {

@@ -117,6 +117,8 @@ fw.options = (function ($) {
 	}
 
 	function findOptionDescriptorEl (el) {
+		el = (el instanceof jQuery) ? el[0] : el;
+
 		return el.classList.contains('fw-backend-option-descriptor')
 			? el
 			: $(el).closest('.fw-backend-option-descriptor')[0];

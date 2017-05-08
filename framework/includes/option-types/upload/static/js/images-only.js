@@ -143,6 +143,10 @@
 
 			fwe.trigger('fw:option-type:upload:clear', {$element: elements.$container});
 			elements.$container.trigger('fw:option-type:upload:clear');
+
+			fw.options.triggerChangeForEl(elements.$container, {
+				value: {}
+			});
 		}
 
 		function performSelection (attachment) {
@@ -181,6 +185,14 @@
 			fwe.trigger('fw:option-type:upload:change', {
 				$element: elements.$container,
 				attachment: attachment
+			});
+
+			fw.options.triggerChangeForEl(elements.$container, {
+				attachment: attachment,
+				value: {
+					attachment_id: attachment.get('id'),
+					url: attachment.get('url')
+				}
 			});
 
 			elements.$container.trigger('fw:option-type:upload:change', {
