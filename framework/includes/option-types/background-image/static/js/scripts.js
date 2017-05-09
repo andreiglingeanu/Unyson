@@ -20,9 +20,7 @@ jQuery(document).ready(function ($) {
 					}
 				}
 
-				triggerChangeAndInferValueFor(
-					data.context
-				);
+				fw.options.triggerChangeForEl(data.context);
 			});
 		});
 
@@ -47,8 +45,4 @@ jQuery(document).ready(function ($) {
 
 		$options.addClass('initialized');
 	});
-
-	function triggerChangeAndInferValueFor (el) {
-		fw.options.triggerChangeForEl(el);
-	}
 });

@@ -227,6 +227,12 @@ jQuery(document).ready(function ($) {
 	fwEvents.on('fw:options:init', function (data) {
 		var $elements = data.$elements.find(optionTypeClass +':not(.fw-option-initialized)');
 
+		$elements.toArray().map(function (el) {
+			fw.options.onChangeByContext(el, function (data) {
+				fw.options.triggerChangeForEl(data.context);
+			});
+		});
+
 		/** Init Add button */
 		$elements.on('click', '> .fw-option-boxes-controls > .fw-option-boxes-add-button', function(){
 			var $button   = $(this);

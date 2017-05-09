@@ -31,6 +31,7 @@ $attr['class'] .= ' width-type-'. $option['width'];
 if (!empty($data['value'])) {
 	$attr['class'] .= ' has-boxes';
 }
+
 ?>
 <div <?php echo fw_attr_to_html($attr); ?>>
 	<!-- Fixes https://github.com/ThemeFuse/Unyson/issues/1278#issuecomment-208032542 -->
