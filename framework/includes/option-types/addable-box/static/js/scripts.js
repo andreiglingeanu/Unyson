@@ -55,7 +55,10 @@ jQuery(document).ready(function ($) {
 					}
 				},
 				update: function(){
-					$(this).closest(optionTypeClass).trigger('change'); // for customizer
+					var optionType = $(this).closest(optionTypeClass);
+
+					optionType.trigger('change'); // for customizer
+					fw.options.triggerChangeForEl(optionType);
 				}
 			});
 		},
@@ -293,6 +296,8 @@ jQuery(document).ready(function ($) {
 
 			methods.checkLimit($option);
 			methods.updateHasBoxesClass($option);
+
+			fw.options.triggerChangeForEl($boxes);
 		});
 
 		// close postboxes and attach event listener
