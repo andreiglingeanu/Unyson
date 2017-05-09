@@ -101,9 +101,22 @@
 					$element: elements.$container,
 					attachments: attachments
 				});
+
+				fw.options.triggerChangeForEl(elements.$container, {
+					attachments: attachments,
+					value: attachments.toArray().map(extractSingleAttachmentData)
+				});
+
 				elements.$container.trigger('fw:option-type:multi-upload:change', {
 					attachments: attachments
 				});
+
+				function extractSingleAttachmentData (attachment) {
+					return {
+						attachment_id: attachment.get('id'),
+						url: attachment.get('url')
+					};
+				}
 			});
 		};
 
@@ -113,6 +126,7 @@
 			if (!frame) {
 				createFrame();
 			}
+
 			frame.open();
 		});
 
@@ -124,6 +138,11 @@
 
 			fwe.trigger('fw:option-type:multi-upload:clear', {$element: elements.$container});
 			elements.$container.trigger('fw:option-type:multi-upload:clear');
+
+			fw.options.triggerChangeForEl(elements.$container, {
+				attachments: [],
+				value: {}
+			});
 
 			e.preventDefault();
 		});
