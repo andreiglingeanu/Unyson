@@ -132,9 +132,12 @@
 					$element: elements.$container,
 					attachments: attachments
 				});
+
 				elements.$container.trigger('fw:option-type:multi-upload:change', {
 					attachments: attachments
 				});
+
+				triggerChangeForIds(elements.$container, ids);
 			});
 		};
 
@@ -170,6 +173,8 @@
 				elements.$container.trigger('fw:option-type:multi-upload:clear');
 			}
 
+			triggerChangeForIds(elements.$container, ids);
+
 			e.preventDefault();
 		});
 
@@ -178,6 +183,7 @@
 			update: function () {
 				var ids = collectThumbsIds();
 				elements.$input.val(JSON.stringify(ids));
+				triggerChangeForIds(elements.$container, ids);
 			}
 		});
 	};
@@ -187,5 +193,19 @@
 			.find('.fw-option-type-multi-upload.images-only:not(.fw-option-initialized)').each(init)
 			.addClass('fw-option-initialized');
 	});
+
+	function triggerChangeForIds ($container, attachment_ids) {
+		fw.options.triggerChangeForEl($container, {
+			attachments: attachment_ids.map(wp.media.attachment),
+			value: attachment_ids.map(extractSingleAttachmentData)
+		});
+
+		function extractSingleAttachmentData (attachment_id) {
+			return {
+				attachment_id: attachment_id,
+				url: wp.media.attachment(attachment_id).get('url')
+			};
+		}
+	}
 
 })(jQuery, _, fwEvents);
