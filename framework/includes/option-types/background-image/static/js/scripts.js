@@ -49,12 +49,6 @@ jQuery(document).ready(function ($) {
 	});
 
 	function triggerChangeAndInferValueFor (el) {
-		var value = {
-			type: $(el).find(
-				'[data-fw-option-id="type"] [type="radio"]:checked'
-			).val()
-		}
-
-		fw.options.triggerChangeForEl(el, {value: value});
+		fw.options.triggerChangeForEl(el);
 	}
 });
