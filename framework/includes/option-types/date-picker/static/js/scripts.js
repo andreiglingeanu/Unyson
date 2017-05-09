@@ -31,7 +31,14 @@ function fw_option_type_date_picker_initialize(object) {
 		defaults.weekStart = options.weekStart;
 	}
 
-	object.datepicker(defaults);
+	object.datepicker(defaults)
+		.on('changeDate', function (e) {
+			fw.options.triggerChangeForEl(
+				jQuery(e.target).closest('[data-fw-option-type="date-picker"]'), {
+					value: e.target.value
+				}
+			);
+		});
 }
 
 jQuery(document).ready(function ($) {

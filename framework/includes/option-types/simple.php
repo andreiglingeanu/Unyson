@@ -496,6 +496,7 @@ class FW_Option_Type_Checkboxes extends FW_Option_Type {
 					'name' => $option['attr']['name'] . '[' . $value . ']',
 					'value' => 'true',
 					'id' => $option['attr']['id'] . '-' . $value,
+					'data-fw-checkbox-id' => $value
 				),
 				isset( $option['value'][ $value ] ) && $option['value'][ $value ]
 					? array('checked' => 'checked') : array()
