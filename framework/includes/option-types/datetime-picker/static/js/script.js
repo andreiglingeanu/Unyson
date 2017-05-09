@@ -11,7 +11,14 @@
 			};
 
 		fwe.trigger('fw:options:datetime-picker:before-init', data);
-		$input.datetimepicker(data.options);
+		$input.datetimepicker(data.options)
+			.on('changeDate', function (e) {
+				fw.options.triggerChangeForEl(
+					jQuery(e.target).closest('[data-fw-option-type="datetime-picker"]'), {
+						value: e.target.value
+					}
+				);
+			});
 	};
 
 	fwe.on('fw:options:init', function(data) {
